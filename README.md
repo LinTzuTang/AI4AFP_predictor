@@ -1,2 +1,4 @@
 # AI4AFP_predictor
-![image](https://user-images.githubusercontent.com/19869121/177094412-4e3de354-3451-44aa-8ebf-c0cfc0bcfb1e.png|width=700)
+![image](https://user-images.githubusercontent.com/19869121/177095037-5ba956c4-570c-44fa-8321-c278f62aa57c.png)
+
+
