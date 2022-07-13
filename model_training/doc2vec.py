@@ -14,8 +14,8 @@ def seq_to_kmers(seq, k=3, overlap=True):
         return [[seq[i:i+k] for i in range(j, N - k + 1, k)]
                 for j in range(k)]
 
-# read fasta to kmers
-def read_fasta_to_kmers(fasta_path, input_path=None, k=3, overlap=True):
+# read fasta to kmers 
+def read_fasta_to_kmers(fasta_path, k=3, overlap=True):
     r = []
     for record in SeqIO.parse(fasta_path, 'fasta'):
         r += (seq_to_kmers(str(record.seq),k, overlap))
@@ -44,6 +44,14 @@ def encode_and_labels(pos, neg, model_path):
     data = np.array(list(input_.values())) 
     labels = np.array(list(answer.values()))
     return data, labels
+
+
+def get_Doc2Vec_features_labels(pos_fasta, neg_fasta, model_path):
+    # read fasta to kmers
+    pos = read_fasta_to_kmers(pos_fasta)
+    neg = read_fasta_to_kmers(neg_fasta)
+    features, labels = encode_and_labels(pos, neg, model_path)
+    return fearures, labels
 
 
 
