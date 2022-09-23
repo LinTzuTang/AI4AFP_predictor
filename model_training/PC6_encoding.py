@@ -2,10 +2,11 @@ import re
 from Bio import SeqIO
 import pandas as pd
 import numpy as np
-
+import os
 # generate PC6 table
 def amino_encode_table_6(path=None):
-    path = path or '../data/6-pc'
+    
+    path = path or '/home/AI4AFP_predictor/data/6-pc'
     df = pd.read_csv(path, sep=' ', index_col=0)
     H1 = (df['H1'] - np.mean(df['H1'])) / (np.std(df['H1'], ddof=1))
     V = (df['V'] - np.mean(df['V'])) / (np.std(df['V'], ddof=1))
@@ -22,9 +23,9 @@ def amino_encode_table_6(path=None):
     return table
 
 # read fasta as dict
-def read_fasta(fasta_fname,length=None):
+def read_fasta(fasta_path,length=None):
     r = dict()
-    for record in SeqIO.parse(fasta_fname, 'fasta'):
+    for record in SeqIO.parse(fasta_path, 'fasta'):
         idtag = str(record.id)
         seq = str(record.seq)[:length]
         r[idtag] = seq
@@ -52,8 +53,8 @@ def PC_encoding(data):
     return dat
 
 # PC6 (input: fasta) 
-def PC_6(fasta_name, length=50):
-    r = read_fasta(fasta_name,length)
+def PC_6(fasta_path, length=50):
+    r = read_fasta(fasta_path,length)
     data = padding_seq(r, length)
     dat = PC_encoding(data)
     return dat

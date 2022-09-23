@@ -35,15 +35,15 @@ def train_doc2vec(data,model_path):
 def encode_and_labels(pos, neg, model_path):
     model= Doc2Vec.load(model_path) 
     input_, answer = {}, {}
-    for i in range(len(pos)):
-        input_[i] = model.infer_vector(pos[i])
-        answer[i] = 1
     for i in range(len(neg)):
-        input_[i+len(pos)] = model.infer_vector(neg[i])
-        answer[i+len(pos)] = 0
-    data = np.array(list(input_.values())) 
+        input_[i] = model.infer_vector(neg[i])
+        answer[i] = 0
+    for i in range(len(pos)):
+        input_[i+len(neg)] = model.infer_vector(pos[i])
+        answer[i+len(neg)] = 1  
+    data_array = np.array(list(input_.values())) 
     labels = np.array(list(answer.values()))
-    return data, labels
+    return data_array, labels
 
 
 def get_Doc2Vec_features_labels(pos_fasta, neg_fasta, model_path):
@@ -51,7 +51,16 @@ def get_Doc2Vec_features_labels(pos_fasta, neg_fasta, model_path):
     pos = read_fasta_to_kmers(pos_fasta)
     neg = read_fasta_to_kmers(neg_fasta)
     features, labels = encode_and_labels(pos, neg, model_path)
-    return fearures, labels
+    return features, labels
 
+def Doc2Vec_encoding(fasta_path, model_path):
+    data = read_fasta_to_kmers(fasta_path)
+    model= Doc2Vec.load(model_path)
+    input_={}
+    for i in range(len(data)):
+        input_[i] = model.infer_vector(data[i])
+    data_array = np.array(list(input_.values()))
+    return data_array
+    
 
 
